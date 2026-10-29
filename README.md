@@ -164,7 +164,7 @@ Error = forecast − actual in MW, positive meaning over-forecast (the desk is s
 
 ## AI tool usage
 
-Built with **Claude Code** (Anthropic) as a pair programmer throughout: discovery, code, tests and docs. Every assumption, number and design choice is recorded in [DECISIONS.md](DECISIONS.md) and covered by tests. Hand-checked values, property tests and a deliberate look-ahead mutation guard the critical logic.
+As the brief allows, I used an AI coding assistant (Claude Code) to speed up implementation: writing boilerplate, tests and documentation drafts. I owned the scope, the product and design decisions, the review of every phase and the verification: running the app, checking numbers against Elexon, Docker and the Vercel deploy. Every assumption and choice is recorded in [DECISIONS.md](DECISIONS.md) and covered by tests.
 
 ## Time
 

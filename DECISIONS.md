@@ -96,7 +96,7 @@ Running log of assumptions, verified facts and choices. Newest entries go at the
 
 | Phase | Planned | Actual | Notes |
 |---|---|---|---|
-| 0 Discovery and scaffold | 1.5 h | 0.5 h | AI-assisted (Claude Code). Live API checks, skeletons, fixtures. |
+| 0 Discovery and scaffold | 1.5 h | 0.5 h | Live API checks, skeletons, fixtures. |
 | 1 Ingestion and model | 2.5 h | 1.0 h | Models, migration, client, runner, ingest API, 48 tests (89 % coverage). |
 | 2 Analytics core | 2.5 h | 1.0 h | Vintage selection, alignment, metrics, bootstrap, margin policies with walk-forward, evolution; 90 tests, domain coverage 96–100 %; METHODOLOGY.md. |
 | 3 API | 1.5 h | 1.25 h | 11 read endpoints, envelope and problem details, versioned cache, ETags, gzip, export, typed TS client; 119 tests. |
