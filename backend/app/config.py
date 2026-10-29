@@ -40,6 +40,12 @@ class Settings(BaseSettings):
     seed_from: date = date(2026, 1, 1)
     seed_to: date = date(2026, 2, 2)
     seed_on_startup: bool = True
+    # Serverless hosts freeze the process between requests, so a background seed
+    # would stall: block startup on it instead (Vercel sets this).
+    seed_blocking: bool = False
+    # Precompute the default view after data changes. Off on serverless, where it
+    # would compete with the first requests for CPU.
+    warm_cache: bool = True
 
     # Study defaults (delivery days, half-open [from, to) in UK local dates)
     study_from: date = date(2026, 1, 2)

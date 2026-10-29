@@ -55,6 +55,10 @@ make dev       # API on :8010 (SQLite, seeds itself on first boot), UI on http:/
 
 Configuration lives in `.env` (copy `.env.example`); every variable is optional locally.
 
+### Vercel (one project: UI + API)
+
+`vercel.json` builds the UI into `frontend/dist` and serves the FastAPI app as one Python function (`api/index.py`, deps from the root `requirements.txt`, regenerated with `make requirements`). `/api/*` is rewritten to the function and everything else falls back to the SPA, so the UI and API share one origin with no CORS. The function's filesystem is read-only apart from `/tmp`: each cold start creates SQLite in `/tmp` and seeds it from the bundled `data/raw` cache (about 3 s), and the analysis cache warms per request rather than in the background. Import the repo with **Root Directory** `./` and preset **Other**; the only setting worth adding is `ADMIN_TOKEN` (without it "Refresh from Elexon" is disabled).
+
 ### Offline / static mode
 
 If the API cannot be reached within 8 s, the UI switches to a committed **static snapshot** of the default view (169 responses, about 390 KB gzipped) and says so in a banner. A build with `VITE_STATIC_SNAPSHOT=true` runs entirely from the snapshot, so the demo survives a sleeping or broken backend. Views outside the snapshot (other cutoffs) say so instead of failing silently.
@@ -149,6 +153,9 @@ data/raw/             gzipped raw Elexon responses (January 2026), used to seed
 docs/                 METHODOLOGY.md, ADRs, screenshots
 DECISIONS.md          day-one findings, every decision, time log
 docker-compose.yml    Postgres + API + UI
+api/index.py          Vercel entry point for the FastAPI app
+vercel.json           Vercel build, function and rewrite config
+requirements.txt      runtime Python deps for Vercel (exported from backend/uv.lock)
 ```
 
 ## Methodology in one paragraph
@@ -168,4 +175,4 @@ About 8.25 hours against the 16-hour budget so far; the breakdown by phase is in
 - **Bias source not settled.** The +1.7 GW bias is consistent with curtailment or with a fleet-scope difference between WINDFOR and FUELHH. It is reported, not corrected; correction is roadmap step 1.
 - **Small sample.** 31 days of autocorrelated half-hours: the intervals are wide and the level-dependent margin's advantage is not robust at every cutoff.
 - **Snapshot covers one view.** Offline mode covers only the default 09:00 cutoff.
-- **Not built yet:** no rate limiting on the admin-only ingest endpoint, no PDF brief, no LLM features, not deployed.
+- **Not built yet:** no rate limiting on the admin-only ingest endpoint, no PDF brief, no LLM features.

@@ -80,7 +80,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         if run.rows_upserted:
             app.state.data_version += 1
             # Re-warm the default view so the first visitor after new data is fast.
-            app.state.warm_task = asyncio.create_task(app.state.analysis.warm())
+            if s.warm_cache:
+                app.state.warm_task = asyncio.create_task(app.state.analysis.warm())
 
     runner = IngestRunner(
         sessionmaker,
@@ -96,16 +97,15 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         # read_through: uses the committed raw cache if present, so the demo boots
         # without Elexon; any missing slice is fetched live.
         log.info("seed_on_startup", delivery_from=str(s.seed_from), delivery_to=str(s.seed_to))
-        await runner.start(
-            IngestRequest(
-                delivery_from=s.seed_from,
-                delivery_to=s.seed_to,
-                mode="read_through",
-                forecast_lookback_days=s.forecast_lookback_days,
-                chunk_days=s.elexon_chunk_days,
-            )
+        seed = IngestRequest(
+            delivery_from=s.seed_from,
+            delivery_to=s.seed_to,
+            mode="read_through",
+            forecast_lookback_days=s.forecast_lookback_days,
+            chunk_days=s.elexon_chunk_days,
         )
-    else:
+        await (runner.run(seed) if s.seed_blocking else runner.start(seed))
+    elif s.warm_cache:
         app.state.warm_task = asyncio.create_task(app.state.analysis.warm())
     yield
     await runner.shutdown()

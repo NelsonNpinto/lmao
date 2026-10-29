@@ -90,15 +90,4 @@ Running log of assumptions, verified facts and choices. Newest entries go at the
 
 - **D53. uv in Docker.** `ghcr.io/astral-sh/uv:0.13.6-python3.12-bookworm-slim` does not exist, so the build stage is now `python:3.12-slim-bookworm` with the pinned uv binary copied from `ghcr.io/astral-sh/uv:0.13.6` (uv's documented pattern). Compose ports are configurable (`WEB_PORT`, `API_PORT`) so the stack can run beside the dev servers.
 - **D54. Re-warm after every data change.** The startup warm-up only ran when the database was already seeded, so on a first boot the cache was cold until the first visitor. Now any ingest that changes rows bumps the data version and re-warms the default view and the 24-cutoff sweep; the first request after boot takes about 20 ms.
-
-## Time log
-
-| Phase | Planned | Actual | Notes |
-|---|---|---|---|
-| 0 Discovery and scaffold | 1.5 h | 0.5 h | AI-assisted (Claude Code). Live API checks, skeletons, fixtures. |
-| 1 Ingestion and model | 2.5 h | 1.0 h | Models, migration, client, runner, ingest API, 48 tests (89 % coverage). |
-| 2 Analytics core | 2.5 h | 1.0 h | Vintage selection, alignment, metrics, bootstrap, margin policies with walk-forward, evolution; 90 tests, domain coverage 96–100 %; METHODOLOGY.md. |
-| 3 API | 1.5 h | 1.25 h | 11 read endpoints, envelope and problem details, versioned cache, ETags, gzip, export, typed TS client; 119 tests. |
-| 4 Frontend foundation | 2 h | 1.5 h | Tokens, themes, layout, URL state, typed queries, dashboard (KPIs, day chart, vintage strip, buying plan), 16 Vitest tests; verified in both themes at 1440 px and 375 px. |
-| 5 Frontend depth | 3 h | 1.75 h | Accuracy, Cutoff explorer, Day explorer, Replay, Findings, Data pages; command palette; lazy routes; 17 Vitest + 5 Playwright tests. |
-| 6 Ship (local) | 1.5 h | 1.25 h | Dockerfiles, compose, nginx; Postgres verified via embedded server; static snapshot fallback and offline build; README with generated screenshots. Docker verified end to end once Docker Desktop was repaired; hosting deferred. |
+- **D55. Vercel: one project, UI + API.** The brief allows Vercel or Heroku. One Vercel project serves the static UI and the FastAPI app as a Python function (`api/index.py`), with `/api/*` rewritten to it, so there is one URL and no CORS. Serverless constraints shape the settings it sets: SQLite in `/tmp` seeded from the bundled raw cache on each cold start (`SEED_BLOCKING=true`, because a background seed would freeze between requests), no background warm-up (`WARM_CACHE=false`), and a random admin token unless `ADMIN_TOKEN` is set. Simulated locally from a clean venv with only `requirements.txt` (106 MB of deps, under the 500 MB limit): ready in 2.8 s, same MAE/bias/skill, 401 on unauthenticated refresh, raw cache untouched. Relies on Vercel's FastAPI lifespan support (December 2025).

@@ -1,4 +1,4 @@
-.PHONY: install seed seed-refresh report api-types e2e snapshot screenshots up backend frontend dev test lint
+.PHONY: install seed seed-refresh report api-types requirements e2e snapshot screenshots up backend frontend dev test lint
 
 install:
 	cd backend && uv sync
@@ -16,6 +16,10 @@ report:
 api-types:
 	cd backend && uv run python -m app.cli openapi ../frontend/openapi.json
 	cd frontend && npm run -s gen:api
+
+# Root requirements.txt is what the Vercel Python function installs.
+requirements:
+	cd backend && uv export --frozen --no-dev --no-emit-project --no-hashes -o ../requirements.txt
 
 backend:
 	cd backend && uv run uvicorn app.main:app --reload --port 8010
