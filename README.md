@@ -168,7 +168,7 @@ Built with **Claude Code** (Anthropic) as a pair programmer throughout: discover
 
 ## Time
 
-About 8.25 hours against the 16-hour budget so far; the breakdown by phase is in [DECISIONS.md](DECISIONS.md#time-log).
+About 9.25 hours against the 16-hour budget; the breakdown by phase is in [DECISIONS.md](DECISIONS.md#time-log).
 
 ## Known limitations and next steps
 
