@@ -4,7 +4,7 @@ Decision support for a GB day-ahead power procurement desk. It shows the nationa
 
 **The headline (09:00 UK cutoff on D-1, delivery 2 Jan – 1 Feb 2026):** the forecast the desk saw missed by **2,042 MW** on average (95 % CI 1,642–2,485) and ran **1,748 MW high** (1,234–2,291), so a desk buying against it is short in 85 % of half-hours. It still halves the error of a naive "same as yesterday" guess. A P90 margin of **4,140 MW** covers 90 % of half-hours in hindsight but **85 %** when each day's margin is learned only from earlier days. A margin that varies with the forecast level gives that same coverage with **16 % less over-buying**. Waiting from 09:00 to 11:00 improves accuracy by only 26 MW.
 
-> Live URL: not deployed yet. Every number above is reproducible with `make report` and documented in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
+> **Live app: https://lmao-eta-cyan.vercel.app** (UI + API on Vercel; interactive API docs at [/docs](https://lmao-eta-cyan.vercel.app/docs)). Every number above is reproducible with `make report` and documented in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
 
 | | |
 |---|---|
@@ -57,7 +57,7 @@ Configuration lives in `.env` (copy `.env.example`); every variable is optional 
 
 ### Vercel (one project: UI + API)
 
-`vercel.json` builds the UI into `frontend/dist` and serves the FastAPI app as one Python function (`api/index.py`, deps from the root `requirements.txt`, regenerated with `make requirements`). `/api/*` is rewritten to the function and everything else falls back to the SPA, so the UI and API share one origin with no CORS. The function's filesystem is read-only apart from `/tmp`: each cold start creates SQLite in `/tmp` and seeds it from the bundled `data/raw` cache (about 3 s), and the analysis cache warms per request rather than in the background. Import the repo with **Root Directory** `./` and preset **Other**; the only setting worth adding is `ADMIN_TOKEN` (without it "Refresh from Elexon" is disabled).
+`vercel.json` builds the UI into `frontend/dist` and serves the FastAPI app as one Python function (`api/index.py`, deps from the root `requirements.txt`, regenerated with `make requirements`). `/api/*` is rewritten to the function and everything else falls back to the SPA, so the UI and API share one origin with no CORS. The function's filesystem is read-only apart from `/tmp`: each cold start creates SQLite in `/tmp` and seeds it from the bundled `data/raw` cache (about 3 s), and the analysis cache warms per request rather than in the background. Live at https://lmao-eta-cyan.vercel.app. Import the repo with **Root Directory** `./` and preset **Other**; the only setting worth adding is `ADMIN_TOKEN` (without it "Refresh from Elexon" is disabled).
 
 ### Offline / static mode
 
