@@ -1,0 +1,12 @@
+# Build context for the backend image is the repo root (it needs data/raw).
+**/node_modules
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+backend/tests
+data/*.db*
+frontend
+docs
+.claude

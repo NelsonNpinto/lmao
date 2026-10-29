@@ -1,0 +1,3975 @@
+{
+  "components": {
+    "schemas": {
+      "ActualPoint": {
+        "properties": {
+          "actual_mw": {
+            "title": "Actual Mw",
+            "type": "number"
+          },
+          "start_time": {
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start_time",
+          "actual_mw"
+        ],
+        "title": "ActualPoint",
+        "type": "object"
+      },
+      "AppMeta": {
+        "properties": {
+          "coverage": {
+            "$ref": "#/components/schemas/Coverage"
+          },
+          "data_version": {
+            "title": "Data Version",
+            "type": "integer"
+          },
+          "defaults": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "items": {
+                    "type": "number"
+                  },
+                  "type": "array"
+                }
+              ]
+            },
+            "title": "Defaults",
+            "type": "object"
+          },
+          "env": {
+            "title": "Env",
+            "type": "string"
+          },
+          "git_sha": {
+            "title": "Git Sha",
+            "type": "string"
+          },
+          "ingest_running": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ingest Running"
+          },
+          "last_ingest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IngestRunOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "version",
+          "git_sha",
+          "env",
+          "data_version",
+          "ingest_running",
+          "defaults",
+          "coverage",
+          "last_ingest"
+        ],
+        "title": "AppMeta",
+        "type": "object"
+      },
+      "BacktestOut": {
+        "properties": {
+          "coverage_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Coverage Pct"
+          },
+          "days_skipped": {
+            "title": "Days Skipped",
+            "type": "integer"
+          },
+          "evaluation": {
+            "enum": [
+              "in_sample",
+              "walk_forward"
+            ],
+            "title": "Evaluation",
+            "type": "string"
+          },
+          "mean_margin_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Margin Mw"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "n_days": {
+            "title": "N Days",
+            "type": "integer"
+          },
+          "over_procured_mwh": {
+            "title": "Over Procured Mwh",
+            "type": "number"
+          },
+          "policy": {
+            "enum": [
+              "none",
+              "flat",
+              "conditional"
+            ],
+            "title": "Policy",
+            "type": "string"
+          },
+          "quantile": {
+            "title": "Quantile",
+            "type": "number"
+          },
+          "shortfall_mwh": {
+            "title": "Shortfall Mwh",
+            "type": "number"
+          }
+        },
+        "required": [
+          "policy",
+          "evaluation",
+          "quantile",
+          "n",
+          "n_days",
+          "days_skipped",
+          "coverage_pct",
+          "mean_margin_mw",
+          "over_procured_mwh",
+          "shortfall_mwh"
+        ],
+        "title": "BacktestOut",
+        "type": "object"
+      },
+      "Band": {
+        "properties": {
+          "basis": {
+            "const": "in_sample_window",
+            "default": "in_sample_window",
+            "title": "Basis",
+            "type": "string"
+          },
+          "error_high_mw": {
+            "title": "Error High Mw",
+            "type": "number"
+          },
+          "error_low_mw": {
+            "title": "Error Low Mw",
+            "type": "number"
+          },
+          "high_quantile": {
+            "title": "High Quantile",
+            "type": "number"
+          },
+          "low_quantile": {
+            "title": "Low Quantile",
+            "type": "number"
+          }
+        },
+        "required": [
+          "low_quantile",
+          "high_quantile",
+          "error_low_mw",
+          "error_high_mw"
+        ],
+        "title": "Band",
+        "type": "object"
+      },
+      "CalibrationBucketOut": {
+        "properties": {
+          "bucket": {
+            "title": "Bucket",
+            "type": "string"
+          },
+          "inside_in_sample_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inside In Sample Pct"
+          },
+          "inside_walk_forward_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inside Walk Forward Pct"
+          },
+          "low_n": {
+            "title": "Low N",
+            "type": "boolean"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "n_walk_forward": {
+            "title": "N Walk Forward",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "bucket",
+          "n",
+          "inside_in_sample_pct",
+          "inside_walk_forward_pct",
+          "n_walk_forward",
+          "low_n"
+        ],
+        "title": "CalibrationBucketOut",
+        "type": "object"
+      },
+      "CalibrationOut": {
+        "properties": {
+          "buckets": {
+            "items": {
+              "$ref": "#/components/schemas/CalibrationBucketOut"
+            },
+            "title": "Buckets",
+            "type": "array"
+          },
+          "nominal_pct": {
+            "title": "Nominal Pct",
+            "type": "number"
+          }
+        },
+        "required": [
+          "nominal_pct",
+          "buckets"
+        ],
+        "title": "CalibrationOut",
+        "type": "object"
+      },
+      "Coverage": {
+        "properties": {
+          "actual_from": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actual From"
+          },
+          "actual_revisions": {
+            "title": "Actual Revisions",
+            "type": "integer"
+          },
+          "actual_rows": {
+            "title": "Actual Rows",
+            "type": "integer"
+          },
+          "actual_to": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actual To"
+          },
+          "forecast_published_from": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Published From"
+          },
+          "forecast_published_to": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Published To"
+          },
+          "forecast_rows": {
+            "title": "Forecast Rows",
+            "type": "integer"
+          },
+          "forecast_vintages": {
+            "title": "Forecast Vintages",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "actual_rows",
+          "actual_from",
+          "actual_to",
+          "actual_revisions",
+          "forecast_rows",
+          "forecast_vintages",
+          "forecast_published_from",
+          "forecast_published_to"
+        ],
+        "title": "Coverage",
+        "type": "object"
+      },
+      "DayMarginOut": {
+        "properties": {
+          "coverage_pct": {
+            "title": "Coverage Pct",
+            "type": "number"
+          },
+          "delivery_date": {
+            "format": "date",
+            "title": "Delivery Date",
+            "type": "string"
+          },
+          "history_days": {
+            "title": "History Days",
+            "type": "integer"
+          },
+          "mean_margin_mw": {
+            "title": "Mean Margin Mw",
+            "type": "number"
+          }
+        },
+        "required": [
+          "delivery_date",
+          "history_days",
+          "mean_margin_mw",
+          "coverage_pct"
+        ],
+        "title": "DayMarginOut",
+        "type": "object"
+      },
+      "DayVintagesOut": {
+        "properties": {
+          "actuals": {
+            "items": {
+              "$ref": "#/components/schemas/ActualPoint"
+            },
+            "title": "Actuals",
+            "type": "array"
+          },
+          "cutoff": {
+            "format": "date-time",
+            "title": "Cutoff",
+            "type": "string"
+          },
+          "delivery_date": {
+            "format": "date",
+            "title": "Delivery Date",
+            "type": "string"
+          },
+          "nearest_date_with_data": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set when this day has no vintages",
+            "title": "Nearest Date With Data"
+          },
+          "revision_hours": {
+            "title": "Revision Hours",
+            "type": "integer"
+          },
+          "revision_range_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revision Range Mw"
+          },
+          "revision_step_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revision Step Mw"
+          },
+          "revision_vintages": {
+            "title": "Revision Vintages",
+            "type": "integer"
+          },
+          "selected_publish_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Publish Time"
+          },
+          "vintages": {
+            "items": {
+              "$ref": "#/components/schemas/VintageOut"
+            },
+            "title": "Vintages",
+            "type": "array"
+          }
+        },
+        "required": [
+          "delivery_date",
+          "cutoff",
+          "selected_publish_time",
+          "vintages",
+          "actuals",
+          "revision_vintages",
+          "revision_hours",
+          "revision_range_mw",
+          "revision_step_mw"
+        ],
+        "title": "DayVintagesOut",
+        "type": "object"
+      },
+      "Envelope_AppMeta_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/AppMeta"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[AppMeta]",
+        "type": "object"
+      },
+      "Envelope_CalibrationOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/CalibrationOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[CalibrationOut]",
+        "type": "object"
+      },
+      "Envelope_DayVintagesOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/DayVintagesOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[DayVintagesOut]",
+        "type": "object"
+      },
+      "Envelope_HistogramOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/HistogramOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[HistogramOut]",
+        "type": "object"
+      },
+      "Envelope_IngestRunOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/IngestRunOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[IngestRunOut]",
+        "type": "object"
+      },
+      "Envelope_MarginOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/MarginOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[MarginOut]",
+        "type": "object"
+      },
+      "Envelope_MetricsOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/MetricsOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[MetricsOut]",
+        "type": "object"
+      },
+      "Envelope_ReplayOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ReplayOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[ReplayOut]",
+        "type": "object"
+      },
+      "Envelope_SeriesOut_": {
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/SeriesOut"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[SeriesOut]",
+        "type": "object"
+      },
+      "Envelope_list_FindingOut__": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/FindingOut"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[list[FindingOut]]",
+        "type": "object"
+      },
+      "Envelope_list_GroupOut__": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/GroupOut"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[list[GroupOut]]",
+        "type": "object"
+      },
+      "Envelope_list_IngestRunOut__": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/IngestRunOut"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[list[IngestRunOut]]",
+        "type": "object"
+      },
+      "Envelope_list_SweepRow__": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/SweepRow"
+            },
+            "title": "Data",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "data",
+          "meta"
+        ],
+        "title": "Envelope[list[SweepRow]]",
+        "type": "object"
+      },
+      "FindingOut": {
+        "properties": {
+          "body": {
+            "title": "Body",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "interval": {
+            "anyOf": [
+              {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interval"
+          },
+          "link": {
+            "title": "Link",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "body",
+          "value",
+          "unit",
+          "interval",
+          "link"
+        ],
+        "title": "FindingOut",
+        "type": "object"
+      },
+      "GroupOut": {
+        "properties": {
+          "excluded_from_ranking": {
+            "title": "Excluded From Ranking",
+            "type": "boolean"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "low_n": {
+            "description": "n < 30: treat with caution",
+            "title": "Low N",
+            "type": "boolean"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/MetricsOut"
+          }
+        },
+        "required": [
+          "key",
+          "metrics",
+          "low_n",
+          "excluded_from_ranking"
+        ],
+        "title": "GroupOut",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "properties": {
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "HistogramOut": {
+        "properties": {
+          "counts": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Counts",
+            "type": "array"
+          },
+          "edges": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Edges",
+            "type": "array"
+          },
+          "mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "quantiles": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "title": "Quantiles",
+            "type": "object"
+          },
+          "unit": {
+            "enum": [
+              "MW",
+              "%"
+            ],
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "edges",
+          "counts",
+          "quantiles",
+          "mean",
+          "n",
+          "unit"
+        ],
+        "title": "HistogramOut",
+        "type": "object"
+      },
+      "IngestRunCreate": {
+        "properties": {
+          "dataset": {
+            "default": "ALL",
+            "enum": [
+              "ALL",
+              "FUELHH",
+              "WINDFOR"
+            ],
+            "title": "Dataset",
+            "type": "string"
+          },
+          "delivery_from": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Defaults to the seed window",
+            "title": "Delivery From"
+          },
+          "delivery_to": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Exclusive",
+            "title": "Delivery To"
+          },
+          "mode": {
+            "default": "refresh",
+            "description": "refresh = always call Elexon; read_through = cache first",
+            "enum": [
+              "refresh",
+              "read_through"
+            ],
+            "title": "Mode",
+            "type": "string"
+          }
+        },
+        "title": "IngestRunCreate",
+        "type": "object"
+      },
+      "IngestRunOut": {
+        "properties": {
+          "dataset": {
+            "title": "Dataset",
+            "type": "string"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "mode": {
+            "title": "Mode",
+            "type": "string"
+          },
+          "progress": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Progress",
+            "type": "number"
+          },
+          "quality": {
+            "additionalProperties": true,
+            "title": "Quality",
+            "type": "object"
+          },
+          "rows_fetched": {
+            "title": "Rows Fetched",
+            "type": "integer"
+          },
+          "rows_rejected": {
+            "title": "Rows Rejected",
+            "type": "integer"
+          },
+          "rows_upserted": {
+            "title": "Rows Upserted",
+            "type": "integer"
+          },
+          "slices_done": {
+            "title": "Slices Done",
+            "type": "integer"
+          },
+          "slices_total": {
+            "title": "Slices Total",
+            "type": "integer"
+          },
+          "started_at": {
+            "format": "date-time",
+            "title": "Started At",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "running",
+              "succeeded",
+              "partial",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "window_from": {
+            "format": "date",
+            "title": "Window From",
+            "type": "string"
+          },
+          "window_to": {
+            "format": "date",
+            "title": "Window To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "dataset",
+          "mode",
+          "window_from",
+          "window_to",
+          "status",
+          "slices_total",
+          "slices_done",
+          "progress",
+          "rows_fetched",
+          "rows_upserted",
+          "rows_rejected",
+          "quality",
+          "started_at",
+          "finished_at",
+          "error"
+        ],
+        "title": "IngestRunOut",
+        "type": "object"
+      },
+      "MarginOut": {
+        "properties": {
+          "in_sample": {
+            "items": {
+              "$ref": "#/components/schemas/BacktestOut"
+            },
+            "title": "In Sample",
+            "type": "array"
+          },
+          "margin_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin Mw"
+          },
+          "margin_mwh_per_period": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin Mwh Per Period"
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PlanOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quantile": {
+            "title": "Quantile",
+            "type": "number"
+          },
+          "recommendation": {
+            "title": "Recommendation",
+            "type": "string"
+          },
+          "walk_forward": {
+            "items": {
+              "$ref": "#/components/schemas/BacktestOut"
+            },
+            "title": "Walk Forward",
+            "type": "array"
+          },
+          "walk_forward_days": {
+            "items": {
+              "$ref": "#/components/schemas/DayMarginOut"
+            },
+            "title": "Walk Forward Days",
+            "type": "array"
+          }
+        },
+        "required": [
+          "quantile",
+          "margin_mw",
+          "margin_mwh_per_period",
+          "recommendation",
+          "in_sample",
+          "walk_forward",
+          "walk_forward_days",
+          "plan"
+        ],
+        "title": "MarginOut",
+        "type": "object"
+      },
+      "Meta": {
+        "description": "What the numbers in ``data`` mean, so the UI never has to guess.",
+        "properties": {
+          "clamped": {
+            "default": false,
+            "description": "Window was trimmed to available data",
+            "title": "Clamped",
+            "type": "boolean"
+          },
+          "completeness": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completeness"
+          },
+          "cutoff": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Decision cutoff, UK local HH:MM",
+            "title": "Cutoff"
+          },
+          "cutoff_days_before": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Cutoff is on D-n",
+            "title": "Cutoff Days Before"
+          },
+          "data_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Version"
+          },
+          "generated_at": {
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          },
+          "notes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "requested_from": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested From"
+          },
+          "requested_to": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested To"
+          },
+          "window_from": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "First delivery day (UK)",
+            "title": "Window From"
+          },
+          "window_to": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Exclusive end delivery day (UK)",
+            "title": "Window To"
+          }
+        },
+        "required": [
+          "generated_at"
+        ],
+        "title": "Meta",
+        "type": "object"
+      },
+      "MetricsOut": {
+        "properties": {
+          "bias_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "mean(forecast - actual); positive = over-forecast",
+            "title": "Bias Mw"
+          },
+          "completeness": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completeness"
+          },
+          "correlation": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Correlation"
+          },
+          "error_quantiles_mw": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Error Quantiles Mw",
+            "type": "object"
+          },
+          "hit_rate_mw_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hit Rate Mw Pct"
+          },
+          "hit_rate_pct_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hit Rate Pct Pct"
+          },
+          "intervals": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "maxItems": 2,
+                  "minItems": 2,
+                  "prefixItems": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ],
+                  "type": "array"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "95 % day-block bootstrap intervals; null below 5 days",
+            "title": "Intervals"
+          },
+          "mae_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae Mw"
+          },
+          "mean_actual_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Actual Mw"
+          },
+          "mean_forecast_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Forecast Mw"
+          },
+          "n": {
+            "description": "Half-hours with both forecast and actual",
+            "title": "N",
+            "type": "integer"
+          },
+          "n_days": {
+            "title": "N Days",
+            "type": "integer"
+          },
+          "n_expected": {
+            "title": "N Expected",
+            "type": "integer"
+          },
+          "n_independent": {
+            "description": "Distinct forecast values (hourly WINDFOR)",
+            "title": "N Independent",
+            "type": "integer"
+          },
+          "nmae_capacity_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nmae Capacity Pct"
+          },
+          "nmae_mean_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nmae Mean Pct"
+          },
+          "persistence_mae_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Persistence Mae Mw"
+          },
+          "r2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "R2"
+          },
+          "rmse_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rmse Mw"
+          },
+          "skill_vs_persistence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skill Vs Persistence"
+          },
+          "wmape_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wmape Pct"
+          }
+        },
+        "required": [
+          "n",
+          "n_expected",
+          "n_days",
+          "n_independent",
+          "completeness",
+          "mean_actual_mw",
+          "mean_forecast_mw",
+          "mae_mw",
+          "rmse_mw",
+          "bias_mw",
+          "nmae_mean_pct",
+          "nmae_capacity_pct",
+          "wmape_pct",
+          "correlation",
+          "r2",
+          "error_quantiles_mw",
+          "hit_rate_mw_pct",
+          "hit_rate_pct_pct",
+          "persistence_mae_mw",
+          "skill_vs_persistence"
+        ],
+        "title": "MetricsOut",
+        "type": "object"
+      },
+      "PlanOut": {
+        "properties": {
+          "delivery_date": {
+            "format": "date",
+            "title": "Delivery Date",
+            "type": "string"
+          },
+          "forecast_total_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Total Mwh"
+          },
+          "history_days": {
+            "title": "History Days",
+            "type": "integer"
+          },
+          "margin_basis": {
+            "enum": [
+              "walk_forward",
+              "window",
+              "none"
+            ],
+            "title": "Margin Basis",
+            "type": "string"
+          },
+          "policy": {
+            "enum": [
+              "none",
+              "flat",
+              "conditional"
+            ],
+            "title": "Policy",
+            "type": "string"
+          },
+          "publish_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Publish Time"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/PlanRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "wind_to_plan_total_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind To Plan Total Mwh"
+          }
+        },
+        "required": [
+          "delivery_date",
+          "policy",
+          "margin_basis",
+          "history_days",
+          "publish_time",
+          "rows",
+          "forecast_total_mwh",
+          "wind_to_plan_total_mwh"
+        ],
+        "title": "PlanOut",
+        "type": "object"
+      },
+      "PlanRow": {
+        "properties": {
+          "forecast_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Mw"
+          },
+          "margin_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin Mw"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "start_time": {
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          },
+          "wind_to_plan_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "forecast - margin: wind to rely on",
+            "title": "Wind To Plan Mw"
+          },
+          "wind_to_plan_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind To Plan Mwh"
+          }
+        },
+        "required": [
+          "start_time",
+          "period",
+          "forecast_mw",
+          "margin_mw",
+          "wind_to_plan_mw",
+          "wind_to_plan_mwh"
+        ],
+        "title": "PlanRow",
+        "type": "object"
+      },
+      "ReplayOut": {
+        "properties": {
+          "cutoff": {
+            "format": "date-time",
+            "title": "Cutoff",
+            "type": "string"
+          },
+          "decision_date": {
+            "format": "date",
+            "title": "Decision Date",
+            "type": "string"
+          },
+          "delivery_date": {
+            "format": "date",
+            "title": "Delivery Date",
+            "type": "string"
+          },
+          "history_days": {
+            "title": "History Days",
+            "type": "integer"
+          },
+          "known": {
+            "description": "Only what was published by the cutoff",
+            "items": {
+              "$ref": "#/components/schemas/ReplayPoint"
+            },
+            "title": "Known",
+            "type": "array"
+          },
+          "margin_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Walk-forward margin knowable at the cutoff",
+            "title": "Margin Mw"
+          },
+          "next_decision": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Decision"
+          },
+          "previous_decision": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previous Decision"
+          },
+          "publish_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Vintage on screen at the cutoff",
+            "title": "Publish Time"
+          },
+          "recent_actuals": {
+            "description": "Actuals published in the 24 h to the cutoff",
+            "items": {
+              "$ref": "#/components/schemas/ActualPoint"
+            },
+            "title": "Recent Actuals",
+            "type": "array"
+          },
+          "reveal": {
+            "description": "What happened next. Hide until revealed",
+            "items": {
+              "$ref": "#/components/schemas/RevealPoint"
+            },
+            "title": "Reveal",
+            "type": "array"
+          },
+          "reveal_coverage_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reveal Coverage Pct"
+          },
+          "reveal_mae_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reveal Mae Mw"
+          },
+          "vintage_age_h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vintage Age H"
+          }
+        },
+        "required": [
+          "decision_date",
+          "delivery_date",
+          "cutoff",
+          "publish_time",
+          "vintage_age_h",
+          "margin_mw",
+          "history_days",
+          "known",
+          "recent_actuals",
+          "reveal",
+          "reveal_mae_mw",
+          "reveal_coverage_pct",
+          "previous_decision",
+          "next_decision"
+        ],
+        "title": "ReplayOut",
+        "type": "object"
+      },
+      "ReplayPoint": {
+        "properties": {
+          "forecast_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Mw"
+          },
+          "margin_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Margin Mw"
+          },
+          "start_time": {
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          },
+          "wind_to_plan_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wind To Plan Mw"
+          }
+        },
+        "required": [
+          "start_time",
+          "forecast_mw",
+          "margin_mw",
+          "wind_to_plan_mw"
+        ],
+        "title": "ReplayPoint",
+        "type": "object"
+      },
+      "RevealPoint": {
+        "properties": {
+          "actual_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actual Mw"
+          },
+          "covered": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "error <= margin",
+            "title": "Covered"
+          },
+          "error_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Mw"
+          },
+          "start_time": {
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start_time",
+          "actual_mw",
+          "error_mw",
+          "covered"
+        ],
+        "title": "RevealPoint",
+        "type": "object"
+      },
+      "SeriesOut": {
+        "properties": {
+          "band": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Band"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gaps": {
+            "description": "Half-hours missing an actual or a forecast",
+            "title": "Gaps",
+            "type": "integer"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/SeriesPoint"
+            },
+            "title": "Points",
+            "type": "array"
+          },
+          "resolution": {
+            "enum": [
+              "30m",
+              "1h",
+              "1d"
+            ],
+            "title": "Resolution",
+            "type": "string"
+          },
+          "stale_periods": {
+            "title": "Stale Periods",
+            "type": "integer"
+          },
+          "vintages_used": {
+            "items": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "title": "Vintages Used",
+            "type": "array"
+          }
+        },
+        "required": [
+          "resolution",
+          "points",
+          "band",
+          "vintages_used",
+          "gaps",
+          "stale_periods"
+        ],
+        "title": "SeriesOut",
+        "type": "object"
+      },
+      "SeriesPoint": {
+        "properties": {
+          "actual_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actual Mw"
+          },
+          "band_high_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "forecast - P10 error: likely ceiling",
+            "title": "Band High Mw"
+          },
+          "band_low_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "forecast - P90 error: likely floor for actual",
+            "title": "Band Low Mw"
+          },
+          "error_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Mw"
+          },
+          "forecast_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Mw"
+          },
+          "lead_time_h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lead Time H"
+          },
+          "publish_time": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Vintage used (as-of the cutoff)",
+            "title": "Publish Time"
+          },
+          "stale": {
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "start_time": {
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start_time",
+          "actual_mw",
+          "forecast_mw",
+          "error_mw",
+          "band_low_mw",
+          "band_high_mw",
+          "publish_time",
+          "lead_time_h",
+          "stale"
+        ],
+        "title": "SeriesPoint",
+        "type": "object"
+      },
+      "SweepRow": {
+        "properties": {
+          "bias_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bias Mw"
+          },
+          "completeness": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completeness"
+          },
+          "conditional_over_procured_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conditional Over Procured Mwh"
+          },
+          "cutoff": {
+            "title": "Cutoff",
+            "type": "string"
+          },
+          "days_before": {
+            "title": "Days Before",
+            "type": "integer"
+          },
+          "mae_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae Mw"
+          },
+          "mean_vintage_age_h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Vintage Age H"
+          },
+          "n": {
+            "title": "N",
+            "type": "integer"
+          },
+          "p90_error_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P90 Error Mw"
+          },
+          "skill_vs_persistence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skill Vs Persistence"
+          },
+          "vintages_used": {
+            "description": "UTC publish times (HH:MM) of the vintages used",
+            "items": {
+              "type": "string"
+            },
+            "title": "Vintages Used",
+            "type": "array"
+          },
+          "walk_forward_coverage_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Walk Forward Coverage Pct"
+          },
+          "walk_forward_over_procured_mwh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Walk Forward Over Procured Mwh"
+          }
+        },
+        "required": [
+          "cutoff",
+          "days_before",
+          "vintages_used",
+          "n",
+          "completeness",
+          "mae_mw",
+          "bias_mw",
+          "p90_error_mw",
+          "skill_vs_persistence",
+          "mean_vintage_age_h",
+          "walk_forward_coverage_pct",
+          "walk_forward_over_procured_mwh",
+          "conditional_over_procured_mwh"
+        ],
+        "title": "SweepRow",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "VintageOut": {
+        "properties": {
+          "after_cutoff": {
+            "title": "After Cutoff",
+            "type": "boolean"
+          },
+          "full_day": {
+            "title": "Full Day",
+            "type": "boolean"
+          },
+          "mae_vs_actual_mw": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae Vs Actual Mw"
+          },
+          "mean_mw": {
+            "title": "Mean Mw",
+            "type": "number"
+          },
+          "n_points": {
+            "title": "N Points",
+            "type": "integer"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/VintagePoint"
+            },
+            "title": "Points",
+            "type": "array"
+          },
+          "publish_time": {
+            "format": "date-time",
+            "title": "Publish Time",
+            "type": "string"
+          },
+          "selected": {
+            "title": "Selected",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "publish_time",
+          "n_points",
+          "full_day",
+          "mean_mw",
+          "mae_vs_actual_mw",
+          "after_cutoff",
+          "selected",
+          "points"
+        ],
+        "title": "VintageOut",
+        "type": "object"
+      },
+      "VintagePoint": {
+        "properties": {
+          "forecast_mw": {
+            "title": "Forecast Mw",
+            "type": "number"
+          },
+          "start_time": {
+            "format": "date-time",
+            "title": "Start Time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start_time",
+          "forecast_mw"
+        ],
+        "title": "VintagePoint",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "As-of GB wind forecast accuracy and procurement margins from Elexon BMRS.",
+    "title": "WindSight API",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/days/{delivery_date}/vintages": {
+      "get": {
+        "description": "Every vintage covering one delivery day, the selected one, and the actual.",
+        "operationId": "day_vintages_api_v1_days__delivery_date__vintages_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "delivery_date",
+            "required": true,
+            "schema": {
+              "format": "date",
+              "title": "Delivery Date",
+              "type": "string"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_DayVintagesOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Day Vintages",
+        "tags": [
+          "days"
+        ]
+      }
+    },
+    "/api/v1/export": {
+      "get": {
+        "description": "Aligned half-hourly dataset (UTC timestamps, raw unrounded MW).",
+        "operationId": "export_api_v1_export_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "csv",
+              "enum": [
+                "csv",
+                "json",
+                "xlsx"
+              ],
+              "title": "Format",
+              "type": "string"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              },
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {},
+              "text/csv": {}
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Export",
+        "tags": [
+          "export"
+        ]
+      }
+    },
+    "/api/v1/findings": {
+      "get": {
+        "description": "3-6 computed, plain-English insights with their numbers and evidence links.",
+        "operationId": "findings_api_v1_findings_get",
+        "parameters": [
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_FindingOut__"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Findings",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v1/ingest/runs": {
+      "get": {
+        "operationId": "list_runs_api_v1_ingest_runs_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_IngestRunOut__"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Runs",
+        "tags": [
+          "ingest"
+        ]
+      },
+      "post": {
+        "operationId": "start_run_api_v1_ingest_runs_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "x-admin-token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Token"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestRunCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_IngestRunOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "409": {
+            "description": "A run is already in progress"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Start Run",
+        "tags": [
+          "ingest"
+        ]
+      }
+    },
+    "/api/v1/ingest/runs/{run_id}": {
+      "get": {
+        "operationId": "get_run_api_v1_ingest_runs__run_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "run_id",
+            "required": true,
+            "schema": {
+              "title": "Run Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_IngestRunOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Run",
+        "tags": [
+          "ingest"
+        ]
+      }
+    },
+    "/api/v1/meta": {
+      "get": {
+        "operationId": "meta_api_v1_meta_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_AppMeta_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Meta",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v1/metrics/by/{dimension}": {
+      "get": {
+        "operationId": "metrics_by_dimension_api_v1_metrics_by__dimension__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dimension",
+            "required": true,
+            "schema": {
+              "enum": [
+                "day",
+                "hour",
+                "weekday",
+                "lead_time",
+                "regime"
+              ],
+              "title": "Dimension",
+              "type": "string"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_GroupOut__"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Metrics By Dimension",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/metrics/calibration": {
+      "get": {
+        "description": "Does the P10-P90 band contain ~80 % of actuals? Per lead-time bucket.",
+        "operationId": "metrics_calibration_api_v1_metrics_calibration_get",
+        "parameters": [
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_CalibrationOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Metrics Calibration",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/metrics/cutoff-sweep": {
+      "get": {
+        "description": "'When should we decide?': accuracy and margin per candidate cutoff.",
+        "operationId": "cutoff_sweep_api_v1_metrics_cutoff_sweep_get",
+        "parameters": [
+          {
+            "description": "Comma-separated UK HH:MM list",
+            "in": "query",
+            "name": "cutoffs",
+            "required": false,
+            "schema": {
+              "default": "07:00,09:00,11:00",
+              "description": "Comma-separated UK HH:MM list",
+              "title": "Cutoffs",
+              "type": "string"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_list_SweepRow__"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cutoff Sweep",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/metrics/error-distribution": {
+      "get": {
+        "operationId": "error_distribution_api_v1_metrics_error_distribution_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "bins",
+            "required": false,
+            "schema": {
+              "default": 30,
+              "maximum": 200,
+              "minimum": 5,
+              "title": "Bins",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Express error as % of mean actual",
+            "in": "query",
+            "name": "normalise",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "Express error as % of mean actual",
+              "title": "Normalise",
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_HistogramOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Error Distribution",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/metrics/summary": {
+      "get": {
+        "description": "Every headline metric with 95 % day-block bootstrap intervals.",
+        "operationId": "metrics_summary_api_v1_metrics_summary_get",
+        "parameters": [
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_MetricsOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Metrics Summary",
+        "tags": [
+          "analytics"
+        ]
+      }
+    },
+    "/api/v1/procurement/margin": {
+      "get": {
+        "description": "Recommended margin, in-sample and walk-forward backtests for every policy,\nand (with ``day``) the per-period plan for that delivery day.",
+        "operationId": "margin_api_v1_procurement_margin_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "quantile",
+            "required": false,
+            "schema": {
+              "default": 0.9,
+              "maximum": 0.99,
+              "minimum": 0.5,
+              "title": "Quantile",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "policy",
+            "required": false,
+            "schema": {
+              "default": "flat",
+              "enum": [
+                "none",
+                "flat",
+                "conditional"
+              ],
+              "title": "Policy",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Delivery day for the buying plan",
+            "in": "query",
+            "name": "day",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Delivery day for the buying plan",
+              "title": "Day"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_MarginOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Margin",
+        "tags": [
+          "procurement"
+        ]
+      }
+    },
+    "/api/v1/ready": {
+      "get": {
+        "operationId": "ready_api_v1_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Ready",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/v1/replay/{decision_date}": {
+      "get": {
+        "description": "Only what was knowable at the cutoff; the outcome sits in ``reveal``.",
+        "operationId": "replay_api_v1_replay__decision_date__get",
+        "parameters": [
+          {
+            "description": "Day the desk decides (D-n)",
+            "in": "path",
+            "name": "decision_date",
+            "required": true,
+            "schema": {
+              "description": "Day the desk decides (D-n)",
+              "format": "date",
+              "title": "Decision Date",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "policy",
+            "required": false,
+            "schema": {
+              "default": "flat",
+              "enum": [
+                "none",
+                "flat",
+                "conditional"
+              ],
+              "title": "Policy",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "quantile",
+            "required": false,
+            "schema": {
+              "default": 0.9,
+              "maximum": 0.99,
+              "minimum": 0.5,
+              "title": "Quantile",
+              "type": "number"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_ReplayOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Replay",
+        "tags": [
+          "days"
+        ]
+      }
+    },
+    "/api/v1/series": {
+      "get": {
+        "description": "Actual, as-of forecast, error and the historical P10-P90 band per period.",
+        "operationId": "series_api_v1_series_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "resolution",
+            "required": false,
+            "schema": {
+              "default": "30m",
+              "enum": [
+                "30m",
+                "1h",
+                "1d"
+              ],
+              "title": "Resolution",
+              "type": "string"
+            }
+          },
+          {
+            "description": "First UK delivery day (default: study window)",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "First UK delivery day (default: study window)",
+              "title": "From"
+            }
+          },
+          {
+            "description": "Exclusive end delivery day",
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exclusive end delivery day",
+              "title": "To"
+            }
+          },
+          {
+            "description": "UK local HH:MM, default 09:00",
+            "in": "query",
+            "name": "cutoff",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "UK local HH:MM, default 09:00",
+              "title": "Cutoff"
+            }
+          },
+          {
+            "description": "Cutoff on D-1 or D-2 (default 1)",
+            "in": "query",
+            "name": "days_before",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 2,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Cutoff on D-1 or D-2 (default 1)",
+              "title": "Days Before"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope_SeriesOut_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Series",
+        "tags": [
+          "analytics"
+        ]
+      }
+    }
+  }
+}
